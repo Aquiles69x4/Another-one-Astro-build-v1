@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backendotravez.vercel.app/'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backendotravez.vercel.app'
 
 class ApiClient {
   private async request(endpoint: string, options: RequestInit = {}) {
@@ -101,3 +101,4 @@ class ApiClient {
 
 
 export const api = new ApiClient()
+
