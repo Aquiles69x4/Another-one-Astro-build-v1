@@ -8,14 +8,33 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
-    methods: ["GET", "POST"]
+    origin: [
+      "http://localhost:3000",
+      "https://astrobuild-frontend.vercel.app",
+      "https://another-one-astro-build-v1.vercel.app",
+      "https://another-one-astro-build-v1-frontend.vercel.app"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true
   }
 });
 
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+// Configuración CORS actualizada
+const corsOptions = {
+  origin: [
+    'http://localhost:3000',
+    'https://astrobuild-frontend.vercel.app',
+    'https://another-one-astro-build-v1.vercel.app',
+    'https://another-one-astro-build-v1-frontend.vercel.app'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes (no authentication needed)
@@ -34,13 +53,13 @@ app.get('/api/health', (req, res) => {
 app.get('/api/stats', async (req, res) => {
   try {
     const db = require('./database/db');
-
+    
     const carsResult = await db.query('SELECT COUNT(*) as count FROM cars');
     const tasksResult = await db.query('SELECT COUNT(*) as count FROM tasks');
     const completedTasksResult = await db.query('SELECT COUNT(*) as count FROM tasks WHERE status = "completed"');
     const pendingTasksResult = await db.query('SELECT COUNT(*) as count FROM tasks WHERE status = "pending"');
     const inProgressTasksResult = await db.query('SELECT COUNT(*) as count FROM tasks WHERE status = "in_progress"');
-
+    
     res.json({
       total_cars: carsResult.rows[0].count,
       total_tasks: tasksResult.rows[0].count,
@@ -56,12 +75,12 @@ app.get('/api/stats', async (req, res) => {
 
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
-
+  
   socket.on('join-room', (room) => {
     socket.join(room);
     console.log(`User ${socket.id} joined room: ${room}`);
   });
-
+  
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
   });
