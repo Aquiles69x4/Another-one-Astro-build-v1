@@ -5,7 +5,7 @@ const nextConfig = {
 
   // Variables de entorno
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api',
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'https://backendotravez.vercel.app/',
   },
 
   // Configuración de imágenes
@@ -47,5 +47,6 @@ const nextConfig = {
     return []
   },
 }
+
 
 module.exports = nextConfig
