@@ -9,7 +9,7 @@ class SocketClient {
   connect() {
     if (this.socket) return this.socket
 
-    this.socket = io(process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'https://backendotravez.vercel.app/')
+    this.socket = io(process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'https://backendotravez.vercel.app')
 
     this.socket.on('connect', () => {
       console.log('Connected to server')
@@ -61,3 +61,4 @@ class SocketClient {
 
 
 export const socketClient = new SocketClient()
+
