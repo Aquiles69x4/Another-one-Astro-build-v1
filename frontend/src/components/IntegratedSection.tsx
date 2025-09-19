@@ -124,7 +124,7 @@ export default function IntegratedSection() {
     if (!title) return
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'https://backendotravez.vercel.app/`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'https://backendotravez.vercel.app`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -584,3 +584,4 @@ export default function IntegratedSection() {
   )
 
 }
+
